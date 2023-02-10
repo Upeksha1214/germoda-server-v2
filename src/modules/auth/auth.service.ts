@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { StudentService } from '../student/student.service';
 import { AdminService } from '../admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
+import { compareAsync } from 'src/utils/bcrypt-compare-async';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class AuthService {
@@ -13,11 +16,12 @@ export class AuthService {
 
   async authenticateAdmin(username: string, password: string) {
     const adminList: any = await this.adminService.findByUsername(username);
+
     const admin = adminList[0];
-    if (admin.password === password) {
-      return admin;
-    }
-    return null;
+
+    const encryptedPassword = admin.password;
+
+    return await compareAsync(password, encryptedPassword);
   }
 
   async loginAdmin(user: any) {

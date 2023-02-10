@@ -9,7 +9,7 @@ export class Admin implements IAdmin {
   @Prop({ required: true, unique: true })
   username: string;
 
-  @Prop({ required: true, select: false })
+  @Prop({ required: true })
   password: string;
 }
 

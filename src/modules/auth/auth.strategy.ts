@@ -2,12 +2,15 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
+import {
+  ADMIN_AUTH_LOCAL,
+  STUDENT_AUTH_LOCAL,
+} from 'src/constants/auth-strategy-names';
 
 @Injectable()
 export class AdminLocalStrategy extends PassportStrategy(
   Strategy,
-  'admin-auth-local',
+  ADMIN_AUTH_LOCAL,
 ) {
   constructor(private authService: AuthService) {
     super();
