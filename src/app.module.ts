@@ -11,6 +11,7 @@ import { OnlineClassModule } from './modules/online-class/online-class.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PaymentModule } from './modules/payment/payment.module';
+import { MessagesModule } from './modules/messages/messages.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     OnlineClassModule,
     AuthModule,
     PaymentModule,
+    MessagesModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService, AdminService],
