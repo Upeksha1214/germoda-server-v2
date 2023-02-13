@@ -63,7 +63,7 @@ export class MessagesGateway
 
     if (this.meetingsList && this.meetingsList[meetingRoomName]) {
       this.meetingsList[meetingRoomName]['hostCamOn'] = true;
-      this.server.broadcast.emit('server-sent-host-peer-others', {
+      client.emit('server-sent-host-peerId-others', {
         hostPeerId,
         clientIds: this.meetingsList[meetingRoomName].participants,
       });
