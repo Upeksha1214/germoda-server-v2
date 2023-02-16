@@ -1,3 +1,5 @@
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -5,9 +7,15 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import { FRONTEND_ENDPOINT } from 'src/constants/urls';
+import { WsJwtGuard } from '../auth/auth-jwt.strategy';
 
+@UseGuards(WsJwtGuard)
 @WebSocketGateway({
-  cors: true,
+  cors: {
+    origin: ['http://localhost:3000', FRONTEND_ENDPOINT],
+    credentials: true,
+  },
   transports: ['websocket', 'polling'],
 })
 export class MessagesGateway
