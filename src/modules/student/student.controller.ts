@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
+import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { StudentService } from './student.service';
 
@@ -8,13 +8,13 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  @UseGuards(AuthGuard('admin-auth-local'))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
   async createNewStudent(@Body() createStudentDTO: CreateStudentRequestDTO) {
     return await this.studentService.createStudent(createStudentDTO);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_LOCAL))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get('/:id')
   async getStudentById(@Param('id') studentId: string) {
     return this.studentService.getStudentById(studentId);

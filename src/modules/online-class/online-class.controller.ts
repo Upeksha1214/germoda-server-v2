@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { OnlineClassService } from './online-class.service';
 import { CreateOnlineClassDto } from './dto/create-online-class.dto';
 import { UpdateOnlineClassDto } from './dto/update-online-class.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 
+@UseGuards(AuthGuard(ADMIN_AUTH_JWT))
 @Controller('api/online-class')
 export class OnlineClassController {
   constructor(private readonly onlineClassService: OnlineClassService) {}
