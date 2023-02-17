@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
+import {
+  ADMIN_AUTH_JWT,
+  STUDENT_AUTH_JWT,
+} from 'src/constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { StudentService } from './student.service';
 
@@ -14,9 +17,15 @@ export class StudentController {
     return await this.studentService.createStudent(createStudentDTO);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @UseGuards(AuthGuard([ADMIN_AUTH_JWT, STUDENT_AUTH_JWT]))
   @Get('/:id')
   async getStudentById(@Param('id') studentId: string) {
     return this.studentService.getStudentById(studentId);
+  }
+
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Get()
+  async getAllStudents() {
+    return this.studentService.getAllStudents();
   }
 }
