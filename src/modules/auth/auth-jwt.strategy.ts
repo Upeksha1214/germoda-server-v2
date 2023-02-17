@@ -37,13 +37,10 @@ export class StudentJwtStrategy extends PassportStrategy(
     });
   }
 
-  async validate(req: Request, payload: any) {
+  async validate(payload: any) {
     if (payload?.role !== 'student') return false;
 
-    if (req.params.id !== payload.sub) {
-      throw new UnauthorizedException();
-    }
-    return { userId: payload.sub, username: payload.username };
+    return { userId: payload.userId, username: payload.username };
   }
 }
 
@@ -61,7 +58,7 @@ export class WsJwtStrategy extends PassportStrategy(
   }
 
   async validate(payload: any) {
-    return { userId: payload.sub, username: payload.username };
+    return { userId: payload._id, username: payload.username };
   }
 }
 

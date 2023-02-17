@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_JWT,
@@ -17,10 +26,22 @@ export class StudentController {
     return await this.studentService.createStudent(createStudentDTO);
   }
 
-  @UseGuards(AuthGuard([ADMIN_AUTH_JWT, STUDENT_AUTH_JWT]))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get('/:id')
   async getStudentById(@Param('id') studentId: string) {
     return this.studentService.getStudentById(studentId);
+  }
+
+  @UseGuards(AuthGuard(STUDENT_AUTH_JWT))
+  @Get('/own/:id')
+  async getStudentByOwnId(@Param('id') studentId: string, @Request() req) {
+    console.log(req.user);
+    if (studentId === req.user.userId)
+      return this.studentService.getStudentById(studentId);
+    else
+      throw new UnauthorizedException(
+        'student attempted to fetch for another user',
+      );
   }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
