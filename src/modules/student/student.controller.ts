@@ -40,6 +40,7 @@ export class StudentController {
     return this.studentService.update(id,updateStuduntClassDto);
   }
 
+  @Delete(':id')
   remove(@Param('id') id :string){
     return this.studentService.remove(id);
   }

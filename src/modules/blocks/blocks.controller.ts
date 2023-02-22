@@ -8,7 +8,7 @@ import { UpdateBlockDto } from './dto/update-block.dto';
 
 
 @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-@Controller('blocks')
+@Controller('/api/blocks')
 export class BlocksController {
   constructor(private readonly blocksService: BlocksService) {}
 

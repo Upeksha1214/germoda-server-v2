@@ -6,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ADMIN_AUTH_JWT, STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 
 @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-@Controller('marks')
+@Controller('/api/marks')
 export class MarksController {
   constructor(private readonly marksService: MarksService) {}
 

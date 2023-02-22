@@ -6,7 +6,7 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @UseGuards(AuthGuard(ADMIN_AUTH_LOCAL))
-@Controller('course')
+@Controller('/api/course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 

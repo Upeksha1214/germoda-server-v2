@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 
 @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
-@Controller('payment')
+@Controller('/api/payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 

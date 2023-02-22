@@ -6,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 
 @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-@Controller('video')
+@Controller('/apivideo')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
