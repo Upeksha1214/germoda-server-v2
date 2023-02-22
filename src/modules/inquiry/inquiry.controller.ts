@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { InquiryService } from './inquiry.service';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { UpdateInquiryDto } from './dto/update-inquiry.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 
+@UseGuards(AuthGuard(ADMIN_AUTH_JWT))
 @Controller('inquiry')
 export class InquiryController {
   constructor(private readonly inquiryService: InquiryService) {}

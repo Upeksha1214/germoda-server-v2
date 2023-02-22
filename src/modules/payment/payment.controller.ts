@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 
+@UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}

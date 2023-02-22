@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards  } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
+import { ADMIN_AUTH_LOCAL, STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 import { StudentService } from './student.service';
 
+@UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
 @Controller('/api/student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}

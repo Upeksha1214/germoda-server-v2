@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 
+@UseGuards(AuthGuard(ADMIN_AUTH_JWT))
 @Controller('video')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
