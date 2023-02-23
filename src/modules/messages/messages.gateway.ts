@@ -115,4 +115,17 @@ export class MessagesGateway
       console.log('student wants to turn on stream');
     }
   }
+
+  @SubscribeMessage('student-joined-meeting')
+  async onStudentJoinMeeting(client, message) {
+    const { studentPeerId, meetingId } = message;
+    console.log('A new client joined the meeting ' + meetingId);
+    if (this.meetingsList[meetingId]) {
+      this.meetingsList[meetingId].participants.push(studentPeerId);
+    }
+
+    this.server.emit('server-emit-new-client-joined', {
+      newClientUUID: studentPeerId,
+    });
+  }
 }
