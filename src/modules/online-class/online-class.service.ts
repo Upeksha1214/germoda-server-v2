@@ -24,7 +24,25 @@ export class OnlineClassService {
   }
 
   async findById(id: string) {
-    return await this.onlineClassModel.findById(id);
+    try {
+      const result = await this.onlineClassModel.findById(id);
+
+      return result;
+    } catch (error) {
+      console.log('online class record not found');
+      return null;
+    }
+  }
+
+  async findByMeetingUrlId(id: string) {
+    try {
+      const result = await this.onlineClassModel.findOne({ meetingUrlId: id });
+
+      return result;
+    } catch (error) {
+      console.log('online class record not found');
+      return null;
+    }
   }
 
   async update(id: string, updateOnlineClassDto: UpdateOnlineClassDto) {

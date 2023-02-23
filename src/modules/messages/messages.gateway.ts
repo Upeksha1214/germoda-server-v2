@@ -39,22 +39,29 @@ export class MessagesGateway
 
   @SubscribeMessage('client-send-message-to-server')
   async onChat(client, message) {
-    this.server.emit('server-send-messages-to-clients', message);
+    const { meetingName, senderName, messageBody } = message;
+    if (this.meetingsList[meetingName]) {
+      this.meetingsList[meetingName].messages.push({ senderName, messageBody });
+      this.server.emit('server-send-messages-to-clients', message);
+    }
   }
 
   @SubscribeMessage('end-meeting')
   async onEndMeeting(client, message) {
-    // delete meeting chat
+    // TODO: delete meeting chat
     this.server.emit('server-send-end-meeting-message-to-clients', message);
   }
 
   @SubscribeMessage('client-connected-to-meeting')
   async onClientConnectToMeeting(client, message) {
-    console.log('A new client joined the meeting');
     const { clientId, meetingRoomName } = message;
+    console.log('A new client joined the meeting ' + meetingRoomName);
 
     if (!this.meetingsList[meetingRoomName]) {
-      this.meetingsList[meetingRoomName] = { participants: [] };
+      this.meetingsList[meetingRoomName] = {
+        participants: [],
+        messagesHistory: [],
+      };
     }
 
     this.meetingsList[meetingRoomName].participants.push(clientId);
@@ -62,6 +69,22 @@ export class MessagesGateway
     this.server.emit('server-emit-new-client-joined', {
       newClientUUID: clientId,
     });
+  }
+
+  @SubscribeMessage('host-started-meeting')
+  async onHostStartMeeting(client, message) {
+    // verify host is an admin
+
+    // get meeting name
+    const { title, meetingId } = message;
+
+    console.log(meetingId + ' started');
+
+    this.meetingsList[meetingId] = {
+      title,
+      participants: [],
+      messagesHistory: [],
+    };
   }
 
   @SubscribeMessage('host-turned-on-camera')
