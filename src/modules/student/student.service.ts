@@ -36,7 +36,7 @@ export class StudentService {
   }
 
   async getStudentByUsername(username: string) {
-    return await this.studentModel.findOne({ username });
+    return await this.studentModel.findOne({ email: username });
   }
   async getAllStudents() {
     return await this.studentModel.find();

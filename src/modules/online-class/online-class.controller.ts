@@ -24,8 +24,10 @@ export class OnlineClassController {
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post()
-  create(@Body() createOnlineClassDto: CreateOnlineClassDto) {
-    return this.onlineClassService.create(createOnlineClassDto);
+  async create(@Body() createOnlineClassDto: CreateOnlineClassDto) {
+    return await this.onlineClassService.create(
+      createOnlineClassDto.onlineClass,
+    );
   }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))

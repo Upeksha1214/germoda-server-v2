@@ -41,7 +41,10 @@ export class MessagesGateway
   async onChat(client, message) {
     const { meetingName, senderName, messageBody } = message;
     if (this.meetingsList[meetingName]) {
-      this.meetingsList[meetingName].messages.push({ senderName, messageBody });
+      this.meetingsList[meetingName].messagesHistory.push({
+        senderName,
+        messageBody,
+      });
       this.server.emit('server-send-messages-to-clients', message);
     }
   }
