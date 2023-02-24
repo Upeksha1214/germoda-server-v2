@@ -7,9 +7,12 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { FRONTEND_ENDPOINT } from 'src/constants/urls';
-import { WsJwtGuard } from '../auth/auth-jwt.strategy';
+import {
+  WsJwtGuard,
+  WsJwtGuardAdminAndStudent,
+  WsJwtGuardStudent,
+} from '../auth/auth-jwt.strategy';
 
-@UseGuards(WsJwtGuard)
 @WebSocketGateway({
   cors: {
     origin: ['http://localhost:3000', FRONTEND_ENDPOINT],
@@ -37,6 +40,7 @@ export class MessagesGateway
 
   meetingsList = {};
 
+  @UseGuards(WsJwtGuardAdminAndStudent)
   @SubscribeMessage('client-send-message-to-server')
   async onChat(client, message) {
     const { meetingName, senderName, messageBody } = message;
@@ -45,16 +49,19 @@ export class MessagesGateway
         senderName,
         messageBody,
       });
+      console.log(this.meetingsList);
       this.server.emit('server-send-messages-to-clients', message);
     }
   }
 
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('end-meeting')
   async onEndMeeting(client, message) {
     // TODO: delete meeting chat
     this.server.emit('server-send-end-meeting-message-to-clients', message);
   }
 
+  @UseGuards(WsJwtGuardAdminAndStudent)
   @SubscribeMessage('client-connected-to-meeting')
   async onClientConnectToMeeting(client, message) {
     const { clientId, meetingRoomName } = message;
@@ -62,34 +69,39 @@ export class MessagesGateway
 
     if (!this.meetingsList[meetingRoomName]) {
       this.meetingsList[meetingRoomName] = {
-        participants: [],
+        participants: new Set(),
         messagesHistory: [],
       };
     }
 
-    this.meetingsList[meetingRoomName].participants.push(clientId);
+    this.meetingsList[meetingRoomName].participants.add(clientId);
 
     this.server.emit('server-emit-new-client-joined', {
       newClientUUID: clientId,
     });
+
+    client.emit('server-ack-client-joining', {
+      messageHistory: this.meetingsList[meetingRoomName].messagesHistory,
+    });
   }
 
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('host-started-meeting')
   async onHostStartMeeting(client, message) {
-    // verify host is an admin
-
     // get meeting name
-    const { title, meetingId } = message;
+    const { title, meetingId, hostPeerId } = message;
 
     console.log(meetingId + ' started');
 
     this.meetingsList[meetingId] = {
       title,
-      participants: [],
+      hostPeerId,
+      participants: new Set(),
       messagesHistory: [],
     };
   }
 
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('host-turned-on-camera')
   async onHostCamOn(client, meeting) {
     const { hostPeerId, meetingRoomName } = meeting;
@@ -98,11 +110,12 @@ export class MessagesGateway
       this.meetingsList[meetingRoomName]['hostCamOn'] = true;
       client.emit('server-sent-host-peerId-others', {
         hostPeerId,
-        clientIds: this.meetingsList[meetingRoomName].participants,
+        clientIds: Array.from(this.meetingsList[meetingRoomName].participants),
       });
     }
   }
 
+  @UseGuards(WsJwtGuardStudent)
   @SubscribeMessage('student-turned-on-camera')
   async onClientStartCam(client, message) {
     const { hostPeerId, meetingRoomName } = message;
@@ -116,12 +129,13 @@ export class MessagesGateway
     }
   }
 
+  @UseGuards(WsJwtGuardStudent)
   @SubscribeMessage('student-joined-meeting')
   async onStudentJoinMeeting(client, message) {
     const { studentPeerId, meetingId } = message;
-    console.log('A new client joined the meeting ' + meetingId);
+    console.log('A new student joined the meeting ' + meetingId);
     if (this.meetingsList[meetingId]) {
-      this.meetingsList[meetingId].participants.push(studentPeerId);
+      this.meetingsList[meetingId].participants.add(studentPeerId);
     }
 
     this.server.emit('server-emit-new-client-joined', {
