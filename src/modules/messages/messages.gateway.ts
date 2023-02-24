@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UseGuards } from '@nestjs/common';
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -23,6 +23,8 @@ import {
 export class MessagesGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+
   @WebSocketServer() server;
   users = 0;
   async handleConnection() {
