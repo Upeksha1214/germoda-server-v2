@@ -20,6 +20,9 @@ export class OnlineClass implements IOnlineClass {
 
   @Prop({ required: true })
   fee: number;
+
+  @Prop({ required: true })
+  meetingUrlId: string;
 }
 
 export const OnlineClassSchema = SchemaFactory.createForClass(OnlineClass);

@@ -8,4 +8,6 @@ export default interface  IOnlineClass {
   duration: number;
 
   fee: number;
+
+  meetingUrlId: string;
 }

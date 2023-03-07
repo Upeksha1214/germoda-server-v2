@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Student, StudentDocument } from 'src/schemas/student.schema';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bcrypt = require('bcrypt');
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 
 
@@ -14,7 +16,22 @@ export class StudentService {
   ) {}
 
   async createStudent(requestDto: CreateStudentRequestDTO) {
-    return await new this.studentModel(requestDto).save();
+    const { password } = requestDto;
+
+    try {
+      const encryptedPassword = await bcrypt.hash(password, 10);
+      const savedStudent = await new this.studentModel({
+        ...requestDto,
+        password: encryptedPassword,
+      }).save();
+
+      // Password should not be returned
+      const { email, _id } = savedStudent;
+
+      return Object.freeze({ email, _id });
+    } catch (exception) {
+      console.log(exception);
+    }
   }
 
   async getStudentById(studentId: string) {
@@ -22,7 +39,10 @@ export class StudentService {
   }
 
   async getStudentByUsername(username: string) {
-    return await this.studentModel.findOne({ username });
+    return await this.studentModel.findOne({ email: username });
+  }
+  async getAllStudents() {
+    return await this.studentModel.find();
   }
 
   async findAll(){

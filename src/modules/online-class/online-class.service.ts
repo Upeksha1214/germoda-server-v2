@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateOnlineClassDto } from './dto/create-online-class.dto';
 import { UpdateOnlineClassDto } from './dto/update-online-class.dto';
 import {
   OnlineClass,
   OnlineClassDocument,
 } from '../../schemas/online-class.schema';
 import { Model } from 'mongoose';
+import IOnlineClass from 'src/interfaces/online-class.interface';
 
 @Injectable()
 export class OnlineClassService {
@@ -15,8 +15,8 @@ export class OnlineClassService {
     private onlineClassModel: Model<OnlineClassDocument>,
   ) {}
 
-  async create(createOnlineClassDto: CreateOnlineClassDto) {
-    return await new this.onlineClassModel(createOnlineClassDto).save();
+  async create(onlineClass: IOnlineClass) {
+    return await new this.onlineClassModel(onlineClass).save();
   }
 
   async findAll() {
@@ -24,7 +24,25 @@ export class OnlineClassService {
   }
 
   async findById(id: string) {
-    return await this.onlineClassModel.findById(id);
+    try {
+      const result = await this.onlineClassModel.findById(id);
+
+      return result;
+    } catch (error) {
+      console.log('online class record not found');
+      return null;
+    }
+  }
+
+  async findByMeetingUrlId(id: string) {
+    try {
+      const result = await this.onlineClassModel.findOne({ meetingUrlId: id });
+
+      return result;
+    } catch (error) {
+      console.log('online class record not found');
+      return null;
+    }
   }
 
   async update(id: string, updateOnlineClassDto: UpdateOnlineClassDto) {

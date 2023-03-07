@@ -1,8 +1,10 @@
-export default interface MeetingParticipant {
-  name: string;
+export default interface IMeetingParticipant {
+  name?: string;
   meetingId: string;
-  settings: {
-    muted: boolean;
-    cameraOff: boolean;
+  settings?: {
+    video: boolean;
+    mic: boolean;
+    allowedVideo: boolean;
   };
+  peerId: string;
 }

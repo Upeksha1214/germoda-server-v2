@@ -13,6 +13,13 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Authenticates admin for the local strategy
+   * @author AnupamaCodippily
+   * @param username
+   * @param password - password sent to compare with the original
+   * @returns
+   */
   async authenticateAdmin(username: string, password: string) {
     const adminList: any = await this.adminService.findByUsername(username);
 
@@ -20,13 +27,27 @@ export class AuthService {
 
     const encryptedPassword = admin.password;
 
-    return await compareAsync(password, encryptedPassword);
+    const isValidUser = await compareAsync(password, encryptedPassword);
+
+    if (isValidUser)
+      return {
+        username: admin.username,
+        sub: admin._id,
+      };
+
+    return null;
   }
 
+  /**
+   * @author AnupamaCodippily
+   * @param user Req.user object
+   * @returns
+   */
   async loginAdmin(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, sub: user.sub, role: 'admin' };
     return {
       access_token: this.jwtService.sign(payload),
+      userId: user.sub,
     };
   }
 
@@ -35,13 +56,24 @@ export class AuthService {
 
     const encryptedPassword = user.password;
 
-    return await compareAsync(password, encryptedPassword);
+    const isValidStudent = await compareAsync(password, encryptedPassword);
+
+    if (!isValidStudent) return false;
+
+    return { email: user.email, userId: user._id };
   }
 
-  async loginStudent(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async loginStudentGetJwt(user: any) {
+    const payload = {
+      username: user.email,
+      role: 'student',
+      userId: user.userId,
+    };
+    const t = this.jwtService.sign(payload);
+
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: t,
+      userId: user.userId,
     };
   }
 }

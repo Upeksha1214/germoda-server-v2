@@ -9,7 +9,12 @@ import { AdminLocalStrategy, StudentLocalStrategy } from './auth.strategy';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtStrategy, WsJwtStrategy } from './auth-jwt.strategy';
+import {
+  JwtStrategy,
+  StudentJwtStrategy,
+  WsJwtStrategy,
+  WsJwtStrategyStudent,
+} from './auth-jwt.strategy';
 
 @Module({
   imports: [
@@ -32,6 +37,8 @@ import { JwtStrategy, WsJwtStrategy } from './auth-jwt.strategy';
     StudentLocalStrategy,
     JwtStrategy,
     WsJwtStrategy,
+    WsJwtStrategyStudent,
+    StudentJwtStrategy,
   ],
   controllers: [AuthController],
 })
