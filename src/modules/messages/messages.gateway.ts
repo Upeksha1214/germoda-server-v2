@@ -6,7 +6,10 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import { Cache } from 'cache-manager';
 import { FRONTEND_ENDPOINT } from 'src/constants/urls';
+import IMeetingParticipant from 'src/interfaces/meeting-participant.interface';
+import { IMeeting } from 'src/interfaces/meeting.interface';
 import {
   WsJwtGuard,
   WsJwtGuardAdminAndStudent,
@@ -40,18 +43,19 @@ export class MessagesGateway
     this.server.emit('users', this.users);
   }
 
-  meetingsList = {};
+  // meetingsList = {};
 
   @UseGuards(WsJwtGuardAdminAndStudent)
   @SubscribeMessage('client-send-message-to-server')
   async onChat(client, message) {
     const { meetingName, senderName, messageBody } = message;
-    if (this.meetingsList[meetingName]) {
-      this.meetingsList[meetingName].messagesHistory.push({
-        senderName,
-        messageBody,
-      });
-      console.log(this.meetingsList);
+
+    const meetingSettings: any = await this.cacheManager.get(meetingName);
+    if (meetingSettings) {
+      meetingSettings?.messagesHistory?.push();
+      console.log(meetingSettings);
+
+      this.cacheManager.set(meetingName, meetingSettings);
       this.server.emit('server-send-messages-to-clients', message);
     }
   }
@@ -64,27 +68,20 @@ export class MessagesGateway
   }
 
   @UseGuards(WsJwtGuardAdminAndStudent)
-  @SubscribeMessage('client-connected-to-meeting')
+  @SubscribeMessage('host-connected-to-meeting')
   async onClientConnectToMeeting(client, message) {
-    const { clientId, meetingRoomName } = message;
-    console.log('A new client joined the meeting ' + meetingRoomName);
+    const { meetingId } = message;
 
-    if (!this.meetingsList[meetingRoomName]) {
-      this.meetingsList[meetingRoomName] = {
-        participants: new Set(),
-        messagesHistory: [],
-      };
+    console.log('The host joined the meeting ' + meetingId);
+
+    const meetingSettings: any = await this.cacheManager.get(meetingId);
+
+    if (meetingSettings) {
+      // the client will receive the existing message history
+      client.emit('server-ack-client-joining', {
+        messageHistory: meetingSettings?.messagesHistory,
+      });
     }
-
-    this.meetingsList[meetingRoomName].participants.add(clientId);
-
-    this.server.emit('server-emit-new-client-joined', {
-      newClientUUID: clientId,
-    });
-
-    client.emit('server-ack-client-joining', {
-      messageHistory: this.meetingsList[meetingRoomName].messagesHistory,
-    });
   }
 
   @UseGuards(WsJwtGuard)
@@ -93,27 +90,54 @@ export class MessagesGateway
     // get meeting name
     const { title, meetingId, hostPeerId } = message;
 
-    console.log(meetingId + ' started');
+    console.log('Host started meeting: ' + meetingId);
 
-    this.meetingsList[meetingId] = {
-      title,
-      hostPeerId,
-      participants: new Set(),
-      messagesHistory: [],
-    };
+    const meetingSettings = await this.cacheManager.get(meetingId);
+
+    if (!meetingSettings) {
+      console.log('Meeting initialized');
+      await this.cacheManager.set(
+        meetingId,
+        {
+          meetingId,
+          title,
+          hostPeerId,
+          participants: {},
+          messagesHistory: [],
+        },
+        3600000,
+      );
+    }
   }
 
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('host-turned-on-camera')
   async onHostCamOn(client, meeting) {
-    const { hostPeerId, meetingRoomName } = meeting;
+    const {
+      hostPeerId,
+      meetingId,
+      meetingSettings: { isCamOn, isMicOn, isScreenShared },
+    } = meeting;
 
-    if (this.meetingsList && this.meetingsList[meetingRoomName]) {
-      this.meetingsList[meetingRoomName]['hostCamOn'] = true;
-      client.emit('server-sent-host-peerId-others', {
+    const meetingData: any = await this.cacheManager.get(meetingId);
+
+    if (meetingData) {
+      meetingData.hostCamOn = isCamOn;
+
+      this.server.emit('server-sent-host-peerId-others', {
         hostPeerId,
-        clientIds: Array.from(this.meetingsList[meetingRoomName].participants),
+        clientIds: Array.from(meetingData?.participants),
       });
+
+      this.server.emit('server-sent-host-status-update', {
+        hostSettings: {
+          isCamOn,
+          isMicOn,
+          isScreenShared,
+        },
+      });
+    } else {
+      console.log(`Meeting id: ${meetingId} not found in cache!`);
     }
   }
 
@@ -122,11 +146,9 @@ export class MessagesGateway
   async onClientStartCam(client, message) {
     const { hostPeerId, meetingRoomName } = message;
 
-    if (
-      this.meetingsList &&
-      this.meetingsList[meetingRoomName] &&
-      !this.meetingsList[meetingRoomName].hostCamOn
-    ) {
+    if (this.cacheManager[meetingRoomName]?.hostCamOn) {
+      console.log('student wants to turn on stream but host cam is on');
+    } else if (this.cacheManager[meetingRoomName]) {
       console.log('student wants to turn on stream');
     }
   }
@@ -134,14 +156,39 @@ export class MessagesGateway
   @UseGuards(WsJwtGuardStudent)
   @SubscribeMessage('student-joined-meeting')
   async onStudentJoinMeeting(client, message) {
-    const { studentPeerId, meetingId } = message;
+    const { studentPeerId, meetingId, name, participantSettings } = message;
     console.log('A new student joined the meeting ' + meetingId);
-    if (this.meetingsList[meetingId]) {
-      this.meetingsList[meetingId].participants.add(studentPeerId);
-    }
+    const meetingSettings: IMeeting = await this.cacheManager.get(meetingId);
+    if (meetingSettings) {
+      let participant: IMeetingParticipant = null;
 
-    this.server.emit('server-emit-new-client-joined', {
-      newClientUUID: studentPeerId,
-    });
+      participant = {
+        meetingId,
+        peerId: studentPeerId,
+        name,
+        settings: {
+          video: false,
+          mic: false,
+          allowedVideo: false,
+        },
+      };
+
+      meetingSettings.participants[name] = participant;
+
+      console.log(meetingSettings);
+
+      client.emit('server-sent-client-participants-list', {
+        participants: meetingSettings.participants,
+      });
+
+      this.server.emit('server-emit-new-client-joined', {
+        newClientUUID: studentPeerId,
+        participant,
+      });
+
+      this.cacheManager.set(meetingId, meetingSettings);
+    } else {
+      console.log('Meeting not found');
+    }
   }
 }
