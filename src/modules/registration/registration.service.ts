@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+import { Registration, RegistrationDocument } from 'src/schemas/registration.schemas';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
 
 @Injectable()
 export class RegistrationService {
-  create(createRegistrationDto: CreateRegistrationDto) {
-    return 'This action adds a new registration';
+  constructor(
+    @InjectModel(Registration.name)
+    private registrationModel:Model<RegistrationDocument>
+  ){}
+
+  async create(createRegistrationDto: CreateRegistrationDto) {
+    return await new this.registrationModel(createRegistrationDto).save();
   }
 
-  findAll() {
-    return `This action returns all registration`;
+  async findAll() {
+    return await this.registrationModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} registration`;
+  async findOne(id: string) {
+    return await this.registrationModel.findById(id);
   }
 
-  update(id: number, updateRegistrationDto: UpdateRegistrationDto) {
-    return `This action updates a #${id} registration`;
+  async update(id: number, updateRegistrationDto: UpdateRegistrationDto) {
+    return await this.registrationModel.findByIdAndUpdate(
+      id,
+      updateRegistrationDto.registration,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} registration`;
+  async remove(id: String) {
+    return await this.registrationModel.remove(id) ;
   }
 }

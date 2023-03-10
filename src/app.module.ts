@@ -28,6 +28,7 @@ import { MessagesModule } from './modules/messages/messages.module';
     PaymentModule,
     CourseModule,
     MessagesModule,
+   
   ],
   controllers: [AppController, AdminController],
   providers: [AppService, AdminService],
