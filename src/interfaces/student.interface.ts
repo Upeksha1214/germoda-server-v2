@@ -7,7 +7,9 @@ export default interface IStudent {
 
     course: string;
 
-    birthDate: any;
+    courseDuration:string;
+
+    birthday: any;
 
     gender: string;
 

@@ -1,9 +1,10 @@
-
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Request,
   UnauthorizedException,
@@ -14,15 +15,13 @@ import {
   ADMIN_AUTH_JWT,
   STUDENT_AUTH_JWT,
 } from 'src/constants/auth-strategy-names';
-import { ADMIN_AUTH_LOCAL, STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 import { StudentService } from './student.service';
 
-@UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
 @Controller('/api/student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) {}
+  constructor(private readonly studentService: StudentService) { }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
@@ -36,8 +35,7 @@ export class StudentController {
     return this.studentService.getStudentById(studentId);
   }
 
-
-  @UseGuards(AuthGuard(STUDENT_AUTH_JWT))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get('/own/:id')
   async getStudentByOwnId(@Param('id') studentId: string, @Request() req) {
     console.log(req.user);
@@ -53,27 +51,24 @@ export class StudentController {
   @Get()
   async getAllStudents() {
     return this.studentService.getAllStudents();
-}
-  @Get('/:username')
-  async getStudentByUsername(@Param('username')username:string){
-    return this.studentService.getStudentByUsername(username);
-  }
-  
-  @Get()
-  findAll() {
-    return this.studentService.findAll();
   }
 
-  @Patch(':id')
+
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Patch('/:id')
   update(
-    @Param('id') id:string,
-    @Body() updateStuduntClassDto : UpdateStuduntClassDto,
-  ){
-    return this.studentService.update(id,updateStuduntClassDto);
+    @Param('id') id: string,
+    @Body() updateStuduntClassDto: UpdateStuduntClassDto,
+  ) {
+    return this.studentService.update(id, updateStuduntClassDto);
   }
 
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Delete(':id')
-  remove(@Param('id') id :string){
+  remove(@Param('id') id: string) {
     return this.studentService.remove(id);
   }
+
 }
+
+

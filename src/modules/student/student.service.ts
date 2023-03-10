@@ -16,12 +16,12 @@ export class StudentService {
   ) {}
 
   async createStudent(requestDto: CreateStudentRequestDTO) {
-    const { password } = requestDto;
+    const { password } = requestDto.student;
 
     try {
       const encryptedPassword = await bcrypt.hash(password, 10);
       const savedStudent = await new this.studentModel({
-        ...requestDto,
+        ...requestDto.student,
         password: encryptedPassword,
       }).save();
 
@@ -52,7 +52,7 @@ export class StudentService {
   async update(studentId:string, updateStuduntClassDto:UpdateStuduntClassDto ){
     return await this.studentModel.findByIdAndUpdate(
       studentId,
-      updateStuduntClassDto,
+      updateStuduntClassDto.student,
     );
   }
 

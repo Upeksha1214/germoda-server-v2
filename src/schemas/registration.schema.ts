@@ -5,6 +5,10 @@ export type RegistrationDocument = HydratedDocument<Registration>;
 
 @Schema({ collection: 'germoda-registration' })
 class Registration {
+  
+  @Prop({required:true})
+  registerId:string;
+
   @Prop({ require: true })
   studentId: string;
 
@@ -15,7 +19,10 @@ class Registration {
   balance: number;
 
   @Prop({ require: true })
-  paymentDateTime: Date;
+  paymentDate: Date;
+
+  @Prop({ required:true})
+  payemetTime:string
 }
 
 export const RegistrationSchema = SchemaFactory.createForClass(Registration);
