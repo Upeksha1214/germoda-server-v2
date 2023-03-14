@@ -4,7 +4,7 @@ import IBlocks from "src/interfaces/blocks.interface";
 
 export type BlockDocument= HydratedDocument<Block>
 
-@Schema({collection:'block'})
+@Schema({collection:'germoda-block'})
 export class Block implements IBlocks{
     @Prop({ required: true })
     blockNum: string;
