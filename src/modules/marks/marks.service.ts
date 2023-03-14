@@ -19,19 +19,28 @@ export class MarksService {
     return await new this.marksModule(marks).save();
   }
 
-  findAll() {
-    return `This action returns all marks`;
+  async findAll() {
+    return await this.marksModule.find() ;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mark`;
+  async findById(id: string) {
+     try{
+      const marks=await this.marksModule.findById(id);
+      return marks; 
+     }catch(error){
+      console.log('marks record not found');
+      return null
+     }
   }
 
-  update(id: number, updateMarkDto: UpdateMarkDto) {
-    return `This action updates a #${id} mark`;
+  async update(id: string, updateMarkDto: UpdateMarkDto) {
+    return await this.marksModule.findByIdAndUpdate(
+      id,
+      updateMarkDto
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mark`;
+  async remove(id: string) {
+    return await this.marksModule.findByIdAndRemove(id);
   }
 }

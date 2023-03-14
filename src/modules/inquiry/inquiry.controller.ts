@@ -19,9 +19,9 @@ import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 export class InquiryController {
   constructor(private readonly inquiryService: InquiryService) {}
 
-  @Post()
+  @Post('/')
   create(@Body() createInquiryDto: CreateInquiryDto) {
-    return this.inquiryService.create(createInquiryDto);
+    return this.inquiryService.create(createInquiryDto.inquiry);
   }
 
   @Get()
@@ -31,16 +31,16 @@ export class InquiryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.inquiryService.findOne(+id);
+    return this.inquiryService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInquiryDto: UpdateInquiryDto) {
-    return this.inquiryService.update(+id, updateInquiryDto);
+    return this.inquiryService.update(id, updateInquiryDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.inquiryService.remove(+id);
+    return this.inquiryService.remove(id);
   }
 }

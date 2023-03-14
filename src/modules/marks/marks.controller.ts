@@ -10,9 +10,10 @@ import { ADMIN_AUTH_JWT, STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-
 export class MarksController {
   constructor(private readonly marksService: MarksService) {}
 
-  @Post()
-  create(@Body() createMarkDto: CreateMarkDto) {
-    return this.marksService.create(createMarkDto.marks);
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Post('/')
+  async create(@Body() createMarkDto: CreateMarkDto) {
+    return await this.marksService.create(createMarkDto.marks);
   }
 
   @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
@@ -24,16 +25,16 @@ export class MarksController {
   @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.marksService.findOne(+id);
+    return this.marksService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMarkDto: UpdateMarkDto) {
-    return this.marksService.update(+id, updateMarkDto);
+    return this.marksService.update(id, updateMarkDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.marksService.remove(+id);
+    return this.marksService.remove(id);
   }
 }
