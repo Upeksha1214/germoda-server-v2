@@ -23,7 +23,7 @@ export class OnlineClassController {
   constructor(private readonly onlineClassService: OnlineClassService) {}
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-  @Post()
+  @Post('/')
   async create(@Body() createOnlineClassDto: CreateOnlineClassDto) {
     return await this.onlineClassService.create(
       createOnlineClassDto.onlineClass,

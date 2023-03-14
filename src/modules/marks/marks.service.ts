@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import IMarks from 'src/interfaces/marks.interface';
+import { Marks, MarksDocument } from 'src/schemas/marks.schema';
 import { CreateMarkDto } from './dto/create-mark.dto';
 import { UpdateMarkDto } from './dto/update-mark.dto';
+import { MarksModule } from './marks.module';
 
 @Injectable()
 export class MarksService {
-  create(createMarkDto: CreateMarkDto) {
-    return 'This action adds a new mark';
+  
+  constructor(
+    @InjectModel(Marks.name)
+  private marksModule :Model<MarksDocument>
+  ){}
+
+  async create(marks: IMarks) {
+    return await new this.marksModule(marks).save();
   }
 
   findAll() {

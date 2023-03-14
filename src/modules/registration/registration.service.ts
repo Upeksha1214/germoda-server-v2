@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import IRegistration from 'src/interfaces/registration.interface';
 
 import { Registration, RegistrationDocument } from 'src/schemas/registration.schemas';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
@@ -13,8 +14,8 @@ export class RegistrationService {
     private registrationModel:Model<RegistrationDocument>
   ){}
 
-  async create(createRegistrationDto: CreateRegistrationDto) {
-    return await new this.registrationModel(createRegistrationDto).save();
+  async create(registration:IRegistration) {
+    return await new this.registrationModel(registration).save();
   }
 
   async findAll() {
@@ -25,14 +26,14 @@ export class RegistrationService {
     return await this.registrationModel.findById(id);
   }
 
-  async update(id: number, updateRegistrationDto: UpdateRegistrationDto) {
+  async update(id: string, updateRegistrationDto: UpdateRegistrationDto) {
     return await this.registrationModel.findByIdAndUpdate(
       id,
       updateRegistrationDto.registration,
     );
   }
 
-  async remove(id: String) {
-    return await this.registrationModel.remove(id) ;
+  async remove(id: string) {
+    return await this.registrationModel.findByIdAndRemove(id) ;
   }
 }

@@ -16,6 +16,7 @@ export class OnlineClassService {
   ) {}
 
   async create(onlineClass: IOnlineClass) {
+    console.log(onlineClass);
     return await new this.onlineClassModel(onlineClass).save();
   }
 

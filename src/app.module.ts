@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PaymentModule } from './modules/payment/payment.module';
 import { CourseModule } from './modules/course/course.module';
 import { MessagesModule } from './modules/messages/messages.module';
+import { RegistrationModule } from './modules/registration/registration.module';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { MessagesModule } from './modules/messages/messages.module';
     PaymentModule,
     CourseModule,
     MessagesModule,
+    RegistrationModule,
    
   ],
   controllers: [AppController, AdminController],

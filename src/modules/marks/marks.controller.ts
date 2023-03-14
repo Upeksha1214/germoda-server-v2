@@ -12,7 +12,7 @@ export class MarksController {
 
   @Post()
   create(@Body() createMarkDto: CreateMarkDto) {
-    return this.marksService.create(createMarkDto);
+    return this.marksService.create(createMarkDto.marks);
   }
 
   @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))

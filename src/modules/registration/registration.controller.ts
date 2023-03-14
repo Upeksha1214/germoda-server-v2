@@ -9,10 +9,12 @@ import { ADMIN_AUTH_JWT, STUDENT_AUTH_JWT } from 'src/constants/auth-strategy-na
 export class RegistrationController {
   constructor(private readonly registrationService: RegistrationService) {}
 
-  @UseGuards(AuthGuard(STUDENT_AUTH_JWT))
+  
   @Post('/')
-  create(@Body() createRegistrationDto: CreateRegistrationDto) {
-    return this.registrationService.create(createRegistrationDto);
+  async create(@Body() createRegistrationDto: CreateRegistrationDto) {
+    return await this.registrationService.create(
+      createRegistrationDto.registration
+    );
   }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
@@ -28,9 +30,10 @@ export class RegistrationController {
   }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-  @Patch('/:id')
-  update(@Param('id') id: string, @Body() updateRegistrationDto: UpdateRegistrationDto) {
-    return this.registrationService.update(+id, updateRegistrationDto);
+  @Patch(':id')
+  update(@Param('id') id: string, 
+  @Body() updateRegistrationDto: UpdateRegistrationDto) {
+    return this.registrationService.update(id, updateRegistrationDto);
   }
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
