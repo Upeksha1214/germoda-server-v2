@@ -12,9 +12,9 @@ import { UpdateBlockDto } from './dto/update-block.dto';
 export class BlocksController {
   constructor(private readonly blocksService: BlocksService) {}
 
-  @Post()
+  @Post('/')
   create(@Body() createBlockDto: CreateBlockDto) {
-    return this.blocksService.create(createBlockDto);
+    return this.blocksService.create(createBlockDto.block);
   }
 
   @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
@@ -26,16 +26,16 @@ export class BlocksController {
   @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.blocksService.findOne(+id);
+    return this.blocksService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlockDto: UpdateBlockDto) {
-    return this.blocksService.update(+id, updateBlockDto);
+    return this.blocksService.update(id, updateBlockDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.blocksService.remove(+id);
+    return this.blocksService.remove(id);
   }
 }
