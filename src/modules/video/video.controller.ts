@@ -10,7 +10,7 @@ import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
-  @Post('/')
+  @Post('')
   create(@Body() createVideoDto: CreateVideoDto) {
     return this.videoService.create(createVideoDto.video);
   }

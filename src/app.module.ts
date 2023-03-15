@@ -14,6 +14,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { CourseModule } from './modules/course/course.module';
 import { MessagesModule } from './modules/messages/messages.module';
 import { RegistrationModule } from './modules/registration/registration.module';
+import { VideoModule } from './modules/video/video.module';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { RegistrationModule } from './modules/registration/registration.module';
     CourseModule,
     MessagesModule,
     RegistrationModule,
+    VideoModule,
    
   ],
   controllers: [AppController, AdminController],

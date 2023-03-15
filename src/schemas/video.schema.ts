@@ -13,7 +13,7 @@ export class Video implements IVideo{
     videoName: string;
 
     @Prop({ required: true })
-    videoSize: any;
+    videoSize:number;
     
 }
 
