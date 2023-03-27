@@ -18,6 +18,6 @@ export class Block implements IBlocks{
 
 export const BlockSchema =SchemaFactory.createForClass(Block);
 
-export const BlockMondooseModule = MongooseModule.forFeature([
+export const BlockMongooseModule = MongooseModule.forFeature([
     {name : Block.name,schema:BlockSchema}
 ])

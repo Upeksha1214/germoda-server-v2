@@ -15,6 +15,8 @@ import { CourseModule } from './modules/course/course.module';
 import { MessagesModule } from './modules/messages/messages.module';
 import { RegistrationModule } from './modules/registration/registration.module';
 import { VideoModule } from './modules/video/video.module';
+import { BlocksModule } from './modules/blocks/blocks.module';
+import { MarksModule } from './modules/marks/marks.module';
 
 
 @Module({
@@ -32,6 +34,7 @@ import { VideoModule } from './modules/video/video.module';
     MessagesModule,
     RegistrationModule,
     VideoModule,
+    MarksModule
    
   ],
   controllers: [AppController, AdminController],
