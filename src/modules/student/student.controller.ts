@@ -23,7 +23,7 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) { }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  // @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
   async createNewStudent(@Body() createStudentDTO: CreateStudentRequestDTO) {
     return await this.studentService.createStudent(createStudentDTO);

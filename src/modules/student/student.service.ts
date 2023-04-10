@@ -35,14 +35,16 @@ export class StudentService {
   }
 
   async getStudentById(studentId: string) {
-    return await this.studentModel.findById(studentId);
+    const student= await this.studentModel.findById(studentId);
+    delete student.password
+    return student
   }
 
   async getStudentByUsername(username: string) {
     return await this.studentModel.findOne({ email: username });
   }
   async getAllStudents() {
-    return await this.studentModel.find();
+    return await this.studentModel.find({},"studentId studentName email course birthday NIC gender address courseName courseDuration country state");
   }
 
   async findAll(){
