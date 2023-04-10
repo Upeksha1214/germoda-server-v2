@@ -14,7 +14,7 @@ import { UpdateInquiryDto } from './dto/update-inquiry.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 
-@UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+
 @Controller('/api/inquiry')
 export class InquiryController {
   constructor(private readonly inquiryService: InquiryService) {}

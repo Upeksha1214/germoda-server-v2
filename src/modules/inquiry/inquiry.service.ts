@@ -15,7 +15,7 @@ export class InquiryService {
   ){}
   
   async create(inquiry:IInquiry) {
-    return await new this.inquerModel(inquiry).save;
+    return await new this.inquerModel(inquiry).save();
   }
 
   async findAll() {

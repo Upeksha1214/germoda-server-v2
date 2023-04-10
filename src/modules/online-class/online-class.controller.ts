@@ -17,13 +17,12 @@ import {
   STUDENT_AUTH_JWT,
 } from 'src/constants/auth-strategy-names';
 
-@UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-@Controller('api/online-class')
+
+@Controller('/api/online-class')
 export class OnlineClassController {
   constructor(private readonly onlineClassService: OnlineClassService) {}
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-  @Post('/')
+  @Post('')
   async create(@Body() createOnlineClassDto: CreateOnlineClassDto) {
     return await this.onlineClassService.create(
       createOnlineClassDto.onlineClass,

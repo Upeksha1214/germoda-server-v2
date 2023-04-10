@@ -9,8 +9,8 @@ export class OnlineClass implements IOnlineClass {
   @Prop({ type: Date, required: true })
   date: mongoose.Date;
 
-  @Prop({ type: Date, required: true })
-  time: mongoose.Date;
+  @Prop({ required: true })
+  time: string;
 
   @Prop({ required: true })
   className: string;

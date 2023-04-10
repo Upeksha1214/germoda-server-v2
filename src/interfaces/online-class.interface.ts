@@ -1,4 +1,5 @@
 export default interface  IOnlineClass {
+  
   date: any;
 
   time: any;
