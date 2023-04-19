@@ -2,18 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
-import Icourse from 'src/interfaces/course.interface';
-import { Course, CourseDocument } from 'src/schemas/course.schema';
+import Icourse from '../../interfaces/course.interface';
+import { Course, CourseDocument } from '../../schemas/course.schema';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
 export class CourseService {
-
   constructor(
     @InjectModel(Course.name)
-    private courseModel:Model<CourseDocument>
-  ){}
+    private courseModel: Model<CourseDocument>,
+  ) {}
 
   async create(course: Icourse) {
     return await new this.courseModel(course).save();
@@ -28,10 +27,7 @@ export class CourseService {
   }
 
   async update(id: number, updateCourseDto: UpdateCourseDto) {
-    return await this.courseModel.findByIdAndUpdate(
-      id,
-      updateCourseDto.course
-    );
+    return await this.courseModel.findByIdAndUpdate(id, updateCourseDto.course);
   }
 
   async remove(id: string) {

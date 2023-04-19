@@ -1,4 +1,4 @@
-import IPayment from 'src/interfaces/payment.interface';
+import IPayment from '../../../interfaces/payment.interface';
 
 export class CreatePaymentDto {
   paymentDetails: IPayment;

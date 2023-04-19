@@ -1,9 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { MarksService } from './marks.service';
 import { CreateMarkDto } from './dto/create-mark.dto';
 import { UpdateMarkDto } from './dto/update-mark.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_JWT, STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
+import {
+  ADMIN_AUTH_JWT,
+  STUDENT_AUTH_LOCAL,
+} from '../../constants/auth-strategy-names';
 
 @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
 @Controller('/api/marks')

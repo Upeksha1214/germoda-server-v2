@@ -1,14 +1,13 @@
-export default interface IMarks{
-    inquiryId :string;
-    
-    marks:number;
+export default interface IMarks {
+  inquiryId: string;
 
-    className:string;
+  marks: number;
 
-    grade:string;
+  className: string;
 
-    studentId:string;
+  grade: string;
 
-    status:string;
+  studentId: string;
 
+  status: string;
 }

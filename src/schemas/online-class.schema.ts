@@ -1,6 +1,6 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import IOnlineClass from 'src/interfaces/online-class.interface';
+import IOnlineClass from '../interfaces/online-class.interface';
 
 export type OnlineClassDocument = HydratedDocument<OnlineClass>;
 

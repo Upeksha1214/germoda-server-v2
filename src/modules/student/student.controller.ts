@@ -14,14 +14,14 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_JWT,
   STUDENT_AUTH_JWT,
-} from 'src/constants/auth-strategy-names';
+} from '../../constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 import { StudentService } from './student.service';
 
 @Controller('/api/student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) { }
+  constructor(private readonly studentService: StudentService) {}
 
   // @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
@@ -53,7 +53,6 @@ export class StudentController {
     return this.studentService.getAllStudents();
   }
 
-
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Patch('/:id')
   update(
@@ -68,7 +67,4 @@ export class StudentController {
   remove(@Param('id') id: string) {
     return this.studentService.remove(id);
   }
-
 }
-
-

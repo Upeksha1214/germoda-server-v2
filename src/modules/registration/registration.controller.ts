@@ -1,19 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { RegistrationService } from './registration.service';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_JWT, STUDENT_AUTH_JWT } from 'src/constants/auth-strategy-names';
+import {
+  ADMIN_AUTH_JWT,
+  STUDENT_AUTH_JWT,
+} from '../../constants/auth-strategy-names';
 
 @Controller('/api/registration')
 export class RegistrationController {
   constructor(private readonly registrationService: RegistrationService) {}
 
-  
   @Post('/')
   async create(@Body() createRegistrationDto: CreateRegistrationDto) {
     return await this.registrationService.create(
-      createRegistrationDto.registration
+      createRegistrationDto.registration,
     );
   }
 
@@ -31,8 +42,10 @@ export class RegistrationController {
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Patch(':id')
-  update(@Param('id') id: string, 
-  @Body() updateRegistrationDto: UpdateRegistrationDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateRegistrationDto: UpdateRegistrationDto,
+  ) {
     return this.registrationService.update(id, updateRegistrationDto);
   }
 

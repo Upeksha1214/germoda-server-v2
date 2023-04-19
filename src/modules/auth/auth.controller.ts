@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_LOCAL,
   STUDENT_AUTH_LOCAL,
-} from 'src/constants/auth-strategy-names';
+} from '../../constants/auth-strategy-names';
 import { AuthService } from './auth.service';
 
 @Controller('/auth')

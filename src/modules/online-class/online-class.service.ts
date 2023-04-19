@@ -6,7 +6,7 @@ import {
   OnlineClassDocument,
 } from '../../schemas/online-class.schema';
 import { Model } from 'mongoose';
-import IOnlineClass from 'src/interfaces/online-class.interface';
+import IOnlineClass from '../../interfaces/online-class.interface';
 
 @Injectable()
 export class OnlineClassService {

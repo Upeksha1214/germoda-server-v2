@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { STUDENT_AUTH_LOCAL} from 'src/constants/auth-strategy-names'
-import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
+import { STUDENT_AUTH_LOCAL } from '../../constants/auth-strategy-names';
+import { ADMIN_AUTH_JWT } from '../../constants/auth-strategy-names';
 import { BlocksService } from './blocks.service';
 import { CreateBlockDto } from './dto/create-block.dto';
 import { UpdateBlockDto } from './dto/update-block.dto';
-
 
 @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
 @Controller('/api/blocks')

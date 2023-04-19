@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import IRegistration from 'src/interfaces/registration.interface';
+import IRegistration from '../../interfaces/registration.interface';
 
-import { Registration, RegistrationDocument } from 'src/schemas/registration.schemas';
+import {
+  Registration,
+  RegistrationDocument,
+} from '../../schemas/registration.schemas';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
 
@@ -11,10 +14,10 @@ import { UpdateRegistrationDto } from './dto/update-registration.dto';
 export class RegistrationService {
   constructor(
     @InjectModel(Registration.name)
-    private registrationModel:Model<RegistrationDocument>
-  ){}
+    private registrationModel: Model<RegistrationDocument>,
+  ) {}
 
-  async create(registration:IRegistration) {
+  async create(registration: IRegistration) {
     return await new this.registrationModel(registration).save();
   }
 
@@ -34,6 +37,6 @@ export class RegistrationService {
   }
 
   async remove(id: string) {
-    return await this.registrationModel.findByIdAndRemove(id) ;
+    return await this.registrationModel.findByIdAndRemove(id);
   }
 }

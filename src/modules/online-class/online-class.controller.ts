@@ -15,8 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_JWT,
   STUDENT_AUTH_JWT,
-} from 'src/constants/auth-strategy-names';
-
+} from '../../constants/auth-strategy-names';
 
 @Controller('/api/online-class')
 export class OnlineClassController {
@@ -34,7 +33,6 @@ export class OnlineClassController {
   findAll() {
     return this.onlineClassService.findAll();
   }
-
 
   @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get(':id')

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import IInquiry from 'src/interfaces/inquiry.interface';
-import { InquiryDocument } from 'src/schemas/inquiry.schema';
+import IInquiry from '../../interfaces/inquiry.interface';
+import { InquiryDocument } from '../../schemas/inquiry.schema';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { UpdateInquiryDto } from './dto/update-inquiry.dto';
 import { Inquiry } from './entities/inquiry.entity';
@@ -10,16 +10,16 @@ import { Inquiry } from './entities/inquiry.entity';
 @Injectable()
 export class InquiryService {
   constructor(
-   @InjectModel(Inquiry.name)
-   private inquerModel:Model<InquiryDocument>
-  ){}
-  
-  async create(inquiry:IInquiry) {
+    @InjectModel(Inquiry.name)
+    private inquerModel: Model<InquiryDocument>,
+  ) {}
+
+  async create(inquiry: IInquiry) {
     return await new this.inquerModel(inquiry).save();
   }
 
   async findAll() {
-    return await  this.inquerModel.find();
+    return await this.inquerModel.find();
   }
 
   async findById(id: string) {
@@ -32,12 +32,9 @@ export class InquiryService {
       return null;
     }
   }
- 
+
   async update(id: string, updateInquiryDto: UpdateInquiryDto) {
-    return await this.inquerModel.findByIdAndUpdate(
-      id,
-      updateInquiryDto,
-    );
+    return await this.inquerModel.findByIdAndUpdate(id, updateInquiryDto);
   }
 
   async remove(id: string) {

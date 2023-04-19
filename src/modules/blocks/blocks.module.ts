@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { BlocksService } from './blocks.service';
 import { BlocksController } from './blocks.controller';
-import { BlockMongooseModule } from 'src/schemas/block.schema';
+import { BlockMongooseModule } from '../../schemas/block.schema';
 
 @Module({
-  imports:[BlockMongooseModule],
+  imports: [BlockMongooseModule],
   controllers: [BlocksController],
-  providers: [BlocksService]
+  providers: [BlocksService],
 })
 export class BlocksModule {}

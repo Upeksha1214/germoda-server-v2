@@ -1,10 +1,9 @@
-export default interface IRegistration{
-    registerId :string;
+export default interface IRegistration {
+  registerId: string;
 
-    studentId :string;
+  studentId: string;
 
-    registerDate:Date;
+  registerDate: Date;
 
-    registerTime:string;
-
+  registerTime: string;
 }

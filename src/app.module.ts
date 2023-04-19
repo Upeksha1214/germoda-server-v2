@@ -18,7 +18,6 @@ import { VideoModule } from './modules/video/video.module';
 import { BlocksModule } from './modules/blocks/blocks.module';
 import { MarksModule } from './modules/marks/marks.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -34,8 +33,7 @@ import { MarksModule } from './modules/marks/marks.module';
     MessagesModule,
     RegistrationModule,
     VideoModule,
-    MarksModule
-   
+    MarksModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService, AdminService],

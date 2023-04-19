@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import MeetingParticipant from 'src/interfaces/meeting-participant.interface';
+import MeetingParticipant from '../../interfaces/meeting-participant.interface';
 import CreateNewParticipantRequestDTO from './dto/CreateNewParticipantRequestDTO';
 
 @Injectable()

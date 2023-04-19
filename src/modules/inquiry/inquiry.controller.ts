@@ -12,8 +12,7 @@ import { InquiryService } from './inquiry.service';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { UpdateInquiryDto } from './dto/update-inquiry.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
-
+import { ADMIN_AUTH_JWT } from '../../constants/auth-strategy-names';
 
 @Controller('/api/inquiry')
 export class InquiryController {
