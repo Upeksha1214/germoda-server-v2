@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,12 +11,18 @@ import { OnlineClassModule } from './modules/online-class/online-class.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PaymentModule } from './modules/payment/payment.module';
-import { CourseModule } from './course/course.module';
+import { CourseModule } from './modules/course/course.module';
+import { MessagesModule } from './modules/messages/messages.module';
+import { RegistrationModule } from './modules/registration/registration.module';
+import { VideoModule } from './modules/video/video.module';
+import { BlocksModule } from './modules/blocks/blocks.module';
+import { MarksModule } from './modules/marks/marks.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URL),
+    CacheModule.register(),
     AdminModule,
     StudentModule,
     InquiryModule,
@@ -24,6 +30,10 @@ import { CourseModule } from './course/course.module';
     AuthModule,
     PaymentModule,
     CourseModule,
+    MessagesModule,
+    RegistrationModule,
+    VideoModule,
+    MarksModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService, AdminService],

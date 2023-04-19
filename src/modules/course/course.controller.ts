@@ -1,25 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import {
+  ADMIN_AUTH_LOCAL,
+  STUDENT_AUTH_LOCAL,
+} from '../../constants/auth-strategy-names';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
-@Controller('course')
+@Controller('/api/course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @Post()
+  @UseGuards(AuthGuard(ADMIN_AUTH_LOCAL))
+  @Post('')
   create(@Body() createCourseDto: CreateCourseDto) {
-    return this.courseService.create(createCourseDto);
+    return this.courseService.create(createCourseDto.course);
   }
 
+  @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
   @Get()
   findAll() {
     return this.courseService.findAll();
   }
 
+  @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.courseService.findOne(+id);
+    return this.courseService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +46,6 @@ export class CourseController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.courseService.remove(+id);
+    return this.courseService.remove(id);
   }
 }

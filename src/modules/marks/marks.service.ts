@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import IMarks from '../../interfaces/marks.interface';
+import { Marks, MarksDocument } from '../../schemas/marks.schema';
 import { CreateMarkDto } from './dto/create-mark.dto';
 import { UpdateMarkDto } from './dto/update-mark.dto';
+import { MarksModule } from './marks.module';
 
 @Injectable()
 export class MarksService {
-  create(createMarkDto: CreateMarkDto) {
-    return 'This action adds a new mark';
+  constructor(
+    @InjectModel(Marks.name)
+    private marksModule: Model<MarksDocument>,
+  ) {}
+
+  async create(marks: IMarks) {
+    return await new this.marksModule(marks).save();
   }
 
-  findAll() {
-    return `This action returns all marks`;
+  async findAll() {
+    return await this.marksModule.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mark`;
+  async findById(id: string) {
+    try {
+      const marks = await this.marksModule.findById(id);
+      return marks;
+    } catch (error) {
+      console.log('marks record not found');
+      return null;
+    }
   }
 
-  update(id: number, updateMarkDto: UpdateMarkDto) {
-    return `This action updates a #${id} mark`;
+  async update(id: string, updateMarkDto: UpdateMarkDto) {
+    return await this.marksModule.findByIdAndUpdate(id, updateMarkDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mark`;
+  async remove(id: string) {
+    return await this.marksModule.findByIdAndRemove(id);
   }
 }

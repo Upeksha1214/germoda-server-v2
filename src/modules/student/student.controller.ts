@@ -1,6 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards  } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
+import {
+  ADMIN_AUTH_JWT,
+  STUDENT_AUTH_JWT,
+} from '../../constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 import { StudentService } from './student.service';
@@ -9,37 +23,48 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  @UseGuards(AuthGuard('admin-auth-local'))
+  // @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
   async createNewStudent(@Body() createStudentDTO: CreateStudentRequestDTO) {
     return await this.studentService.createStudent(createStudentDTO);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_LOCAL))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get('/:id')
   async getStudentById(@Param('id') studentId: string) {
     return this.studentService.getStudentById(studentId);
   }
 
-  @Get('/:username')
-  async getStudentByUsername(@Param('username')username:string){
-    return this.studentService.getStudentByUsername(username);
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Get('/own/:id')
+  async getStudentByOwnId(@Param('id') studentId: string, @Request() req) {
+    console.log(req.user);
+    if (studentId === req.user.userId)
+      return this.studentService.getStudentById(studentId);
+    else
+      throw new UnauthorizedException(
+        'student attempted to fetch for another user',
+      );
   }
-  
+
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get()
-  findAll() {
-    return this.studentService.findAll();
+  async getAllStudents() {
+    return this.studentService.getAllStudents();
   }
 
-  @Patch(':id')
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Patch('/:id')
   update(
-    @Param('id') id:string,
-    @Body() updateStuduntClassDto : UpdateStuduntClassDto,
-  ){
-    return this.studentService.update(id,updateStuduntClassDto);
+    @Param('id') id: string,
+    @Body() updateStuduntClassDto: UpdateStuduntClassDto,
+  ) {
+    return this.studentService.update(id, updateStuduntClassDto);
   }
 
-  remove(@Param('id') id :string){
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.studentService.remove(id);
   }
 }

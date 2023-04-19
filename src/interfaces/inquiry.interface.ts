@@ -1,11 +1,11 @@
-export default interface IInquiry{
-    inquiryId:string;
+export default interface IInquiry {
+  inquiryId: string;
 
-    inquiry:string;
+  inquiry: string;
 
-    studenetId:string;
+  studenetId: string;
 
-    description:string;
+  description: string;
 
-    email:string;
+  email: string;
 }

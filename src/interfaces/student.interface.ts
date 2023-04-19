@@ -1,24 +1,25 @@
 export default interface IStudent {
-    studentId: string;
+  studentId: string;
 
-    studentName: string;
+  studentName: string;
 
-    email: string;
+  email: string;
 
-    course: string;
+  course: string;
 
-    birthDate: any;
+  courseDuration: string;
 
-    gender: string;
+  birthday: any;
 
-    NIC: string;
+  gender: string;
 
-    address: string;
+  NIC: string;
 
-    password: string;
+  address: string;
 
-    country: string;
+  password: string;
 
-    state: string;
+  country: string;
 
+  state: string;
 }

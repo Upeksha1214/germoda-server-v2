@@ -3,7 +3,7 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 export type StudentDocument = HydratedDocument<Student>;
 
-@Schema()
+@Schema({ collection: 'germoda-students' })
 export class Student {
   @Prop({ required: true })
   studentId: string;
@@ -18,7 +18,7 @@ export class Student {
   course: string;
 
   @Prop({ type: Date })
-  birthDate: mongoose.Date;
+  birthday: mongoose.Date;
 
   @Prop()
   gender: string;

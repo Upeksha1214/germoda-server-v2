@@ -1,5 +1,5 @@
-import IMarks from "src/interfaces/marks.interface";
+import IMarks from '../../../interfaces/marks.interface';
 
 export class CreateMarkDto {
-    marks:IMarks
+  marks: IMarks;
 }

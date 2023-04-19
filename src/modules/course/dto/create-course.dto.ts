@@ -1,5 +1,5 @@
-import Icourse from "src/interfaces/course.intface";
+import Icourse from '../../../interfaces/course.interface';
 
 export class CreateCourseDto {
-    course:Icourse
+  course: Icourse;
 }

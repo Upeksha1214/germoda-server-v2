@@ -6,18 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { InquiryService } from './inquiry.service';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { UpdateInquiryDto } from './dto/update-inquiry.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ADMIN_AUTH_JWT } from '../../constants/auth-strategy-names';
 
-@Controller('inquiry')
+@Controller('/api/inquiry')
 export class InquiryController {
   constructor(private readonly inquiryService: InquiryService) {}
 
-  @Post()
+  @Post('/')
   create(@Body() createInquiryDto: CreateInquiryDto) {
-    return this.inquiryService.create(createInquiryDto);
+    return this.inquiryService.create(createInquiryDto.inquiry);
   }
 
   @Get()
@@ -27,16 +30,16 @@ export class InquiryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.inquiryService.findOne(+id);
+    return this.inquiryService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInquiryDto: UpdateInquiryDto) {
-    return this.inquiryService.update(+id, updateInquiryDto);
+    return this.inquiryService.update(id, updateInquiryDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.inquiryService.remove(+id);
+    return this.inquiryService.remove(id);
   }
 }
