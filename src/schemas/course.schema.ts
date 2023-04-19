@@ -1,6 +1,6 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import  { HydratedDocument } from "mongoose";
-import Icourse from "src/interfaces/course.intface";
+import Icourse from "src/interfaces/course.interface";
 
 export type CourseDocument =HydratedDocument<Course>;
 

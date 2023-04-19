@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
-import Icourse from 'src/interfaces/course.intface';
+import Icourse from 'src/interfaces/course.interface';
 import { Course, CourseDocument } from 'src/schemas/course.schema';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
