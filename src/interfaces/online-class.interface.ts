@@ -11,4 +11,6 @@ export default interface  IOnlineClass {
   fee: number;
 
   meetingUrlId: string;
+
+  meetingTitle: string;
 }

@@ -58,6 +58,7 @@ export class OnlineClassController {
     return this.onlineClassService.update(id, updateOnlineClassDto);
   }
 
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.onlineClassService.remove(id);

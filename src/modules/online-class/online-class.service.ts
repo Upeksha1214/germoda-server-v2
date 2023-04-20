@@ -55,6 +55,8 @@ export class OnlineClassService {
 
   // TODO: do we need softdelete?
   async remove(id: string) {
-    return `This action removes a #${id} onlineClass`;
+    return await this.onlineClassModel.findById(id).remove().exec();
+    return await this.onlineClassModel.remove({_id: id});
+    // return await this.onlineClassModel.remove({_id: });
   }
 }
