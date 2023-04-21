@@ -10,7 +10,7 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_LOCAL))
+  
   @Post('')
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.courseService.create(createCourseDto.course);

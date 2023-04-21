@@ -22,7 +22,7 @@ export class Course implements Icourse{
     courseDuration: string;
 
     @Prop ({required : true})
-    corseFee: number;
+    courseFee: number;
 
     @Prop ({required : true})
     courseDiscount: number;

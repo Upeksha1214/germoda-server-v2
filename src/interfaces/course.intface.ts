@@ -9,7 +9,7 @@ export default interface Icourse {
     
     courseDuration: string;
     
-    corseFee: number;
+    courseFee: number;
     
     courseDiscount: number;
 }
