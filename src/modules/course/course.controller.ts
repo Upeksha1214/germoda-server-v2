@@ -16,7 +16,7 @@ export class CourseController {
     return this.courseService.create(createCourseDto.course);
   }
 
-  @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
+  
   @Get()
   findAll() {
     return this.courseService.findAll();

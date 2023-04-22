@@ -6,6 +6,13 @@ export type InquiryDocument = HydratedDocument<Inquiry>;
 
 @Schema({ collection: 'germoda-inquiries' })
 class Inquiry {
+
+  @Prop({required:true})
+  inquiryId:string;
+
+  @Prop({required:true})
+  inquiry:string;
+
   @Prop({ required: true })
   studentId: string;
 
