@@ -1,10 +1,10 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import IMarks from '../interfaces/marks.interface';
+import  { HydratedDocument } from 'mongoose';
+import IMarks from 'src/interfaces/marks.interface';
 
-export type MarksDocument = HydratedDocument<Marks>;
+export type MarksDocument = HydratedDocument<Marks>
 
-@Schema({ collection: 'germoda-marks' })
+@Schema ({ collection : 'germoda-marks' })
 export class Marks implements IMarks {
   @Prop({ required: true })
   inquiryId: string;
@@ -28,5 +28,5 @@ export class Marks implements IMarks {
 export const MarksSchema = SchemaFactory.createForClass(Marks);
 
 export const MarksMongooseModule = MongooseModule.forFeature([
-  { name: Marks.name, schema: MarksSchema },
-]);
+  { name: Marks.name, schema: MarksSchema }
+])

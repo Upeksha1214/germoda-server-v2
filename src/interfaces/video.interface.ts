@@ -1,7 +1,8 @@
-export default interface IVideo {
-  videoNum: string;
+export default interface IVideo{
+    videoNum:string;
 
-  videoName: string;
+    videoName:string;
 
-  videoSize: any;
+    videoSize:any;
+    
 }

@@ -15,13 +15,14 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_JWT,
   STUDENT_AUTH_JWT,
-} from '../../constants/auth-strategy-names';
+} from 'src/constants/auth-strategy-names';
 
-@Controller('/api/online-class')
+@Controller('api/online-class')
 export class OnlineClassController {
   constructor(private readonly onlineClassService: OnlineClassService) {}
 
-  @Post('')
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @Post()
   async create(@Body() createOnlineClassDto: CreateOnlineClassDto) {
     return await this.onlineClassService.create(
       createOnlineClassDto.onlineClass,
@@ -56,6 +57,7 @@ export class OnlineClassController {
     return this.onlineClassService.update(id, updateOnlineClassDto);
   }
 
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.onlineClassService.remove(id);

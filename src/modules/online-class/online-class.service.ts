@@ -6,7 +6,7 @@ import {
   OnlineClassDocument,
 } from '../../schemas/online-class.schema';
 import { Model } from 'mongoose';
-import IOnlineClass from '../../interfaces/online-class.interface';
+import IOnlineClass from 'src/interfaces/online-class.interface';
 
 @Injectable()
 export class OnlineClassService {
@@ -16,7 +16,6 @@ export class OnlineClassService {
   ) {}
 
   async create(onlineClass: IOnlineClass) {
-    console.log(onlineClass);
     return await new this.onlineClassModel(onlineClass).save();
   }
 

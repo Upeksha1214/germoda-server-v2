@@ -12,22 +12,18 @@ import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  ADMIN_AUTH_JWT,
-  STUDENT_AUTH_LOCAL,
-} from '../../constants/auth-strategy-names';
+import { STUDENT_AUTH_LOCAL } from 'src/constants/auth-strategy-names';
 
+@UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
 @Controller('/api/payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @UseGuards(AuthGuard(STUDENT_AUTH_LOCAL))
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto) {
     return this.paymentService.create(createPaymentDto);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Get()
   findAll() {
     return this.paymentService.findAll();

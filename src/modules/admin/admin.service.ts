@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import IAdmin from '../../interfaces/admin.interface';
-import { Admin, AdminDocument } from '../../schemas/admin.schema';
+import IAdmin from 'src/interfaces/admin.interface';
+import { Admin, AdminDocument } from 'src/schemas/admin.schema';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require('bcrypt');
 

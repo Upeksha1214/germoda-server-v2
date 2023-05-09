@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { StudentService } from '../student/student.service';
 import { AdminService } from '../admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
-import { compareAsync } from '../../utils/bcrypt-compare-async';
+import { compareAsync } from 'src/utils/bcrypt-compare-async';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 @Injectable()

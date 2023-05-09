@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import {
   ADMIN_AUTH_LOCAL,
   STUDENT_AUTH_LOCAL,
-} from '../../constants/auth-strategy-names';
+} from 'src/constants/auth-strategy-names';
 
 @Injectable()
 export class AdminLocalStrategy extends PassportStrategy(

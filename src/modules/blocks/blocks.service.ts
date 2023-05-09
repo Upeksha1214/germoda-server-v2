@@ -1,35 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import IBlocks from '../../interfaces/blocks.interface';
-import { Block, BlockDocument } from '../../schemas/block.schema';
 import { CreateBlockDto } from './dto/create-block.dto';
 import { UpdateBlockDto } from './dto/update-block.dto';
 
 @Injectable()
 export class BlocksService {
-  constructor(
-    @InjectModel(Block.name)
-    private blockModule: Model<BlockDocument>,
-  ) {}
-
-  async create(block: IBlocks) {
-    return await new this.blockModule(block).save();
+  create(createBlockDto: CreateBlockDto) {
+    return 'This action adds a new block';
   }
 
-  async findAll() {
-    return await this.blockModule.find();
+  findAll() {
+    return `This action returns all blocks`;
   }
 
-  async findOne(id: string) {
-    return await this.blockModule.findById(id);
+  findOne(id: number) {
+    return `This action returns a #${id} block`;
   }
 
-  async update(id: string, updateBlockDto: UpdateBlockDto) {
-    return await this.blockModule.findByIdAndUpdate(id, updateBlockDto.block);
+  update(id: number, updateBlockDto: UpdateBlockDto) {
+    return `This action updates a #${id} block`;
   }
 
-  async remove(id: string) {
-    return await this.blockModule.findByIdAndRemove(id);
+  remove(id: number) {
+    return `This action removes a #${id} block`;
   }
 }

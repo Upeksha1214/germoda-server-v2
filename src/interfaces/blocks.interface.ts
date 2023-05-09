@@ -1,7 +1,7 @@
-export default interface IBlocks {
-  blockNum: string;
+export default interface IBlocks{
+    blockNum:string;
 
-  blockName: string;
+    blockName:string;
 
-  blockSize: any;
+    blockSize:any;
 }

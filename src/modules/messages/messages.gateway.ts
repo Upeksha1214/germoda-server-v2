@@ -7,10 +7,10 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Cache } from 'cache-manager';
-import { MEETINGS_DEFAULT_DURATION_MILLISECONDS } from '../../constants/meeting-gateway';
-import { FRONTEND_ENDPOINT } from '../../constants/urls';
-import IMeetingParticipant from '../../interfaces/meeting-participant.interface';
-import { IMeeting } from '../../interfaces/meeting.interface';
+import { MEETINGS_DEFAULT_DURATION_MILLISECONDS } from 'src/constants/meeting-gateway';
+import { FRONTEND_ENDPOINT } from 'src/constants/urls';
+import IMeetingParticipant from 'src/interfaces/meeting-participant.interface';
+import { IMeeting } from 'src/interfaces/meeting.interface';
 import {
   WsJwtGuard,
   WsJwtGuardAdminAndStudent,

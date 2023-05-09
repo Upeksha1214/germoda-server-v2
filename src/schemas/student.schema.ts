@@ -18,7 +18,7 @@ export class Student {
   course: string;
 
   @Prop({ type: Date })
-  birthday: mongoose.Date;
+  birthDate: mongoose.Date;
 
   @Prop()
   gender: string;

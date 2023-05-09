@@ -14,7 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   ADMIN_AUTH_JWT,
   STUDENT_AUTH_JWT,
-} from '../../constants/auth-strategy-names';
+} from 'src/constants/auth-strategy-names';
 import CreateStudentRequestDTO from './dto/create-student-req.dto';
 import { UpdateStuduntClassDto } from './dto/update-student.dto';
 import { StudentService } from './student.service';
@@ -23,7 +23,7 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  // @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Post('/')
   async createNewStudent(@Body() createStudentDTO: CreateStudentRequestDTO) {
     return await this.studentService.createStudent(createStudentDTO);
@@ -35,7 +35,7 @@ export class StudentController {
     return this.studentService.getStudentById(studentId);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
+  @UseGuards(AuthGuard(STUDENT_AUTH_JWT))
   @Get('/own/:id')
   async getStudentByOwnId(@Param('id') studentId: string, @Request() req) {
     console.log(req.user);
@@ -52,9 +52,17 @@ export class StudentController {
   async getAllStudents() {
     return this.studentService.getAllStudents();
   }
+  @Get('/:username')
+  async getStudentByUsername(@Param('username') username: string) {
+    return this.studentService.getStudentByUsername(username);
+  }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
-  @Patch('/:id')
+  @Get()
+  findAll() {
+    return this.studentService.findAll();
+  }
+
+  @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateStuduntClassDto: UpdateStuduntClassDto,
@@ -62,7 +70,6 @@ export class StudentController {
     return this.studentService.update(id, updateStuduntClassDto);
   }
 
-  @UseGuards(AuthGuard(ADMIN_AUTH_JWT))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.studentService.remove(id);

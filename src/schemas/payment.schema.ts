@@ -1,6 +1,6 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, HydratedDocument } from 'mongoose';
-import IPayment from '../interfaces/payment.interface';
+import IPayment from 'src/interfaces/payment.interface';
 
 export type PaymentDocument = HydratedDocument<Payment>;
 

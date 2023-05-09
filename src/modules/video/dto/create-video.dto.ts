@@ -1,5 +1,5 @@
-import IVideo from '../../../interfaces/video.interface';
+import IVideo from "src/interfaces/video.interface";
 
 export class CreateVideoDto {
-  video: IVideo;
+    video:IVideo
 }

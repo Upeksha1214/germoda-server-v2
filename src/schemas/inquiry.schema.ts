@@ -1,4 +1,4 @@
-import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type InquiryDocument = HydratedDocument<Inquiry>;
@@ -8,7 +8,7 @@ class Inquiry {
   @Prop({ required: true })
   studentId: string;
 
-  @Prop({ required: true })
+  @Prop({ required:true})
   description: string;
 
   @Prop({ required: true })
@@ -16,7 +16,3 @@ class Inquiry {
 }
 
 export const InquirySchema = SchemaFactory.createForClass(Inquiry);
-
-export const InquiryMongooseModule = MongooseModule.forFeature([
-  { name: Inquiry.name, schema: InquirySchema },
-]);

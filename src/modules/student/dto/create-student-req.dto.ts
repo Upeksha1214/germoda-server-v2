@@ -1,4 +1,4 @@
-import IStudent from '../../../interfaces/student.interface';
+import IStudent from 'src/interfaces/student.interface';
 
 export default class CreateStudentRequestDto {
   student: IStudent;

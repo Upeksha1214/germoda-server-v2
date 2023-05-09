@@ -1,4 +1,4 @@
-import IOnlineClass from '../../../interfaces/online-class.interface';
+import IOnlineClass from 'src/interfaces/online-class.interface';
 
 export class CreateOnlineClassDto {
   onlineClass: IOnlineClass;

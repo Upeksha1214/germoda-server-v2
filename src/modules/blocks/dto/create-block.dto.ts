@@ -1,5 +1,5 @@
-import IBlocks from '../../../interfaces/blocks.interface';
+import IBlocks from "src/interfaces/blocks.interface";
 
 export class CreateBlockDto {
-  block: IBlocks;
+    block:IBlocks
 }

@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ADMIN_AUTH_JWT } from '../../constants/auth-strategy-names';
+import { ADMIN_AUTH_JWT } from 'src/constants/auth-strategy-names';
 import { AdminService } from './admin.service';
 import CreateAdminDTO from './dto/create-admin.dto';
 import UpdateAdminDTO from './dto/update-admin.dto';

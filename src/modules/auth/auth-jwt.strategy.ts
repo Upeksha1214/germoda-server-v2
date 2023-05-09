@@ -6,7 +6,7 @@ import {
   ADMIN_AUTH_JWT_WS,
   STUDENT_AUTH_JWT,
   STUDENT_AUTH_JWT_WS,
-} from '../../constants/auth-strategy-names';
+} from 'src/constants/auth-strategy-names';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, ADMIN_AUTH_JWT) {

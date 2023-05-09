@@ -1,6 +1,6 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import IOnlineClass from '../interfaces/online-class.interface';
+import IOnlineClass from 'src/interfaces/online-class.interface';
 
 export type OnlineClassDocument = HydratedDocument<OnlineClass>;
 
@@ -9,8 +9,8 @@ export class OnlineClass implements IOnlineClass {
   @Prop({ type: Date, required: true })
   date: mongoose.Date;
 
-  @Prop({ required: true })
-  time: string;
+  @Prop({ type: Date, required: true })
+  time: mongoose.Date;
 
   @Prop({ required: true })
   className: string;

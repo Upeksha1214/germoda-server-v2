@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AdminMongooseModule } from '../../schemas/admin.schema';
+import { AdminMongooseModule } from 'src/schemas/admin.schema';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 
